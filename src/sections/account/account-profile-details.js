@@ -1,4 +1,6 @@
 import { useCallback, useState } from 'react';
+import axios from "axios";
+import { Formik, Form } from 'formik';
 import {
   Box,
   Button,
@@ -7,66 +9,71 @@ import {
   CardContent,
   CardHeader,
   Divider,
-  TextField,
-  Unstable_Grid2 as Grid
+  Unstable_Grid2 as Grid,
 } from '@mui/material';
-
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  },
-  {
-    value: 'los-angeles',
-    label: 'Los Angeles'
-  }
-];
+import styles from "../../styles/textfield.module.css"
+import {TextField} from './TextField.js';
+import {StoreHashContract} from "./StoreHashContract.js"
 
 export const AccountProfileDetails = () => {
   const [values, setValues] = useState({
-    firstName: 'Anika',
-    lastName: 'Visser',
-    email: 'demo@devias.io',
+    firstName: '',
+    lastName: '',
+    email: '',
     phone: '',
-    state: 'los-angeles',
-    country: 'USA'
+    dob: '',
+    country: ''
   });
 
-  const handleChange = useCallback(
-    (event) => {
-      setValues((prevState) => ({
-        ...prevState,
-        [event.target.name]: event.target.value
-      }));
-    },
-    []
-  );
-
-  const handleSubmit = useCallback(
-    (event) => {
-      event.preventDefault();
-    },
-    []
-  );
+  const [ipfsHash, setIpfsHash] = useState(0)
+  
+  const [success, setSuccess] = useState();
+  const [error, setError] = useState(null);
 
   return (
-    <form
-      autoComplete="off"
-      noValidate
-      onSubmit={handleSubmit}
+    <div>
+    <Formik
+      initialValues={{
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        dateOfBirth: '',
+        country: ''
+      }}
+      validator={() => ({})}
+      onSubmit={ async (values) => {
+        const { ...data} =  values;
+        console.log(data);
+        const response = await axios
+          .post("http://localhost:5000", data)
+          .catch((err) => {
+            if (err && err.response) 
+            setError(err.response.data.message);
+            setSuccess(null);
+            console.log("sent failed");
+          })
+          .then((res)=>{
+            console.log(res)
+            setIpfsHash(res.data)
+            setSuccess("ok");
+            console.log(success);
+          });
+
+      //     if (response && response.data) {
+      //       setError(null);
+      //       setSuccess(response.data.message);
+      //       console.log("sent success");
+
+      // }
+      }}
     >
+      {formik => (
+      <Form>
       <Card>
         <CardHeader
-          subheader="The information can be edited"
-          title="Profile"
+          subheader="Fill test the change the below fields with the candidate's information"
+          title=""
         />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
@@ -78,102 +85,106 @@ export const AccountProfileDetails = () => {
                 xs={12}
                 md={6}
               >
-                <TextField
+                <TextField className ={styles.textfield}
                   fullWidth
                   helperText="Please specify the first name"
                   label="First name"
                   name="firstName"
-                  onChange={handleChange}
+                  onInput={e => setValues(e.target.value)}
                   required
-                  value={values.firstName}
+                  
                 />
               </Grid>
               <Grid
                 xs={12}
                 md={6}
               >
-                <TextField
+                <TextField className ={styles.textfield}
                   fullWidth
                   label="Last name"
                   name="lastName"
-                  onChange={handleChange}
                   required
-                  value={values.lastName}
-                />
+                  />
               </Grid>
               <Grid
                 xs={12}
                 md={6}
               >
-                <TextField
+                <TextField className ={styles.textfield}
                   fullWidth
                   label="Email Address"
                   name="email"
-                  onChange={handleChange}
-                  required
-                  value={values.email}
+                 required 
                 />
               </Grid>
               <Grid
                 xs={12}
                 md={6}
               >
-                <TextField
+                <TextField className ={styles.textfield}
                   fullWidth
                   label="Phone Number"
-                  name="phone"
-                  onChange={handleChange}
+                  name="phone" 
                   type="number"
-                  value={values.phone}
+                  required
                 />
               </Grid>
               <Grid
                 xs={12}
                 md={6}
               >
-                <TextField
+                <TextField className ={styles.textfield}
+                  fullWidth
+                  label="Date of Birth"
+                  name="dateOfBirth"
+                  required
+                />
+              </Grid>
+              <Grid
+                xs={12}
+                md={6}
+              >
+                <TextField className ={styles.textfield}
                   fullWidth
                   label="Country"
                   name="country"
-                  onChange={handleChange}
                   required
-                  value={values.country}
                 />
-              </Grid>
-              <Grid
-                xs={12}
-                md={6}
-              >
-                <TextField
-                  fullWidth
-                  label="Select State"
-                  name="state"
-                  onChange={handleChange}
-                  required
-                  select
-                  SelectProps={{ native: true }}
-                  value={values.state}
-                >
-                  {states.map((option) => (
-                    <option
-                      key={option.value}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
               </Grid>
             </Grid>
           </Box>
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained">
+          <Button variant="contained" type='submit'>
             Save details
           </Button>
         </CardActions>
       </Card>
-    </form>
+      </Form>
+      )}
+    </Formik>
+
+    {success=='ok' &&
+    <div>
+      <Card>
+        <CardContent sx={{ pt: 0 }}>
+            <CardHeader
+                title="IPFS Upload Successful"
+                subheader="Click on the following link if you wish to view your record in IPFS"
+            >
+            </CardHeader>
+            <div className = {styles.ipfsLink}>https://fypipfskyc.infura-ipfs.io/ipfs/{ipfsHash}</div>
+        </CardContent>
+    </Card>
+    <StoreHashContract hash={ipfsHash}></StoreHashContract>
+    </div>
+    }
+
+    
+
+
+    
+    </div>
   );
 };

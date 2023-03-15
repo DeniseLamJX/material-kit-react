@@ -1,0 +1,28 @@
+[
+	{
+		"inputs": [],
+		"name": "allStores",
+		"outputs": [
+			{
+				"internalType": "contract StoringHash[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_ipfsHash",
+				"type": "string"
+			}
+		],
+		"name": "createStore",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
