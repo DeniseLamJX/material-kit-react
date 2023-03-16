@@ -8,7 +8,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Settings | Devias Kit
+        Retrieving Candidate Information
       </title>
     </Head>
     <Box
@@ -21,9 +21,8 @@ const Page = () => (
       <Container maxWidth="lg">
         <Stack spacing={3}>
           <Typography variant="h4">
-            Settings
+          Retrieving Candidate Information
           </Typography>
-          <SettingsNotifications />
           <SettingsPassword />
         </Stack>
       </Container>

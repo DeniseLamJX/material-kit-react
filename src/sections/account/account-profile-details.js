@@ -45,6 +45,8 @@ export const AccountProfileDetails = () => {
       onSubmit={ async (values) => {
         const { ...data} =  values;
         console.log(data);
+        setValues(data)
+        console.log(values.firstName)
         const response = await axios
           .post("http://localhost:5000", data)
           .catch((err) => {
@@ -177,7 +179,7 @@ export const AccountProfileDetails = () => {
             <div className = {styles.ipfsLink}>https://fypipfskyc.infura-ipfs.io/ipfs/{ipfsHash}</div>
         </CardContent>
     </Card>
-    <StoreHashContract hash={ipfsHash}></StoreHashContract>
+    <StoreHashContract firstName = {values.firstName} lastName={values.lastName} hash={ipfsHash}></StoreHashContract>
     </div>
     }
 

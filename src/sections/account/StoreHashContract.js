@@ -11,14 +11,17 @@ import {
     Unstable_Grid2 as Grid,
   } from '@mui/material';
   import styles from "../../styles/textfield.module.css"
+import axios from "axios";
 
-export const StoreHashContract = ({hash}) =>{
+export const StoreHashContract = ({firstName, lastName, hash}) =>{
 
     const storeFactoryABI = require("../../ABI/storeFactoryABI.json")
     const storeFactoryAddress = "0x6AbAdea7c4c1dBac9E07CB41b0E125c3d42eE93c"
 
     const [contractHash, setContractHash]= useState("")
     const [uploadDone, setUploadDone]=useState("")
+    const [successDB, setSuccessDB] = useState();
+    const [error, setError] = useState(null);
 
     async function requestAccount() {
         await window.ethereum.request({method: 'eth_requestAccounts'});
@@ -49,10 +52,20 @@ export const StoreHashContract = ({hash}) =>{
             console.log(allStore[allStore.length-1])
             setContractHash(allStore[allStore.length-1])
     }
-
-
 }
-    
+
+    async function sendHashToMongo(){
+        const data = {firstName, lastName, contractHash}
+        console.log(data)
+        const response = await axios
+            .post("http://localhost:5000/add", data)
+            .catch((err) => {
+                if (err && err.response) 
+                setError(err.response.data.message);
+                setSuccessDB(null);
+                console.log("sent failed");
+              })
+    }
 
     return(
         <div>
@@ -82,10 +95,18 @@ export const StoreHashContract = ({hash}) =>{
                     <Button onClick={checkAllStores} className={styles.submitButtons} sx={{ justifyContent: 'flex-end' }}>
                         Reveal Hash
                     </Button>
+
+                    <Button onClick={sendHashToMongo}>
+                        Save to Mongo
+                    </Button>
                     {contractHash && <div className={styles.ipfsLink}>{contractHash}</div> }
                     </CardContent>
             </Card>
         }
+
+        {/* <Button onClick={sendHashToMongo}>
+            Save to Mongo
+        </Button> */}
 
         
             
