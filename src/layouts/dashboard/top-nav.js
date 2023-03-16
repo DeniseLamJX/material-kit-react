@@ -67,9 +67,9 @@ export const TopNav = (props) => {
             )}
             <Tooltip title="Search">
               <IconButton>
-                <SvgIcon fontSize="small">
-                  <MagnifyingGlassIcon />
-                </SvgIcon>
+                {/* <SvgIcon fontSize="small"> */}
+                  {/* <MagnifyingGlassIcon />
+                </SvgIcon> */}
               </IconButton>
             </Tooltip>
           </Stack>
@@ -80,9 +80,9 @@ export const TopNav = (props) => {
           >
             <Tooltip title="Contacts">
               <IconButton>
-                <SvgIcon fontSize="small">
+                {/* <SvgIcon fontSize="small">
                   <UsersIcon />
-                </SvgIcon>
+                </SvgIcon> */}
               </IconButton>
             </Tooltip>
             <Tooltip title="Notifications">
@@ -92,13 +92,13 @@ export const TopNav = (props) => {
                   color="success"
                   variant="dot"
                 >
-                  <SvgIcon fontSize="small">
+                  {/* <SvgIcon fontSize="small">
                     <BellIcon />
-                  </SvgIcon>
+                  </SvgIcon> */}
                 </Badge>
               </IconButton>
             </Tooltip>
-            <Avatar
+            {/* <Avatar
               onClick={accountPopover.handleOpen}
               ref={accountPopover.anchorRef}
               sx={{
@@ -107,7 +107,7 @@ export const TopNav = (props) => {
                 width: 40
               }}
               src="/assets/avatars/avatar-anika-visser.png"
-            />
+            /> */}
           </Stack>
         </Stack>
       </Box>

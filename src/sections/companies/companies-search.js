@@ -1,23 +1,70 @@
-import MagnifyingGlassIcon from '@heroicons/react/24/solid/MagnifyingGlassIcon';
-import { Card, InputAdornment, OutlinedInput, SvgIcon } from '@mui/material';
+import { Formik, Form } from 'formik';
+import { useCallback, useState } from 'react';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Divider,
+  Stack,
+} from '@mui/material';
+import { TextField } from 'src/components/TextField';
+import styles from "../../styles/textfield.module.css"
 
-export const CompaniesSearch = () => (
-  <Card sx={{ p: 2 }}>
-    <OutlinedInput
-      defaultValue=""
-      fullWidth
-      placeholder="Search company"
-      startAdornment={(
-        <InputAdornment position="start">
-          <SvgIcon
-            color="action"
-            fontSize="small"
+export const RetrieveCandidate = () => {
+
+  const [contractHash, setContractHash] = useState('');
+
+  return(
+    <div>
+    <Formik 
+      initialValues={{ retrieveAddress:""}}
+      validator={() => ({})}
+      onSubmit={async (values) => {
+        const json = values.retrieveAddress
+        console.log(json)
+        setContractHash(json)
+        
+    }}
+    >
+
+      {formik => (
+        <Form>
+        <Card>
+        <CardHeader
+          subheader="Please check if your hash transaction has been completed at https://testnet.layerzeroscan.com/ before attempting to retrieve the hash. "
+          title="Enter Retrieve Contract Address"
+        />
+        <Divider />
+        <CardContent>
+          <Stack
+            spacing={3}
+            sx={{ maxWidth: 400 }}
           >
-            <MagnifyingGlassIcon />
-          </SvgIcon>
-        </InputAdornment>
+
+            <TextField className={styles.textfield}
+              fullWidth
+              label="Retrieve Contract Address"
+              name="retrieveAddress"
+              required
+              
+            />
+        
+          </Stack>
+        </CardContent>
+        <Divider />
+        <CardActions sx={{ justifyContent: 'flex-end' }}>
+          <Button variant="contained" type='submit'>
+            Submit
+          </Button>
+        </CardActions>
+      </Card>
+      </Form>
       )}
-      sx={{ maxWidth: 500 }}
-    />
-  </Card>
-);
+      
+    </Formik>
+    </div>
+  )
+};
+

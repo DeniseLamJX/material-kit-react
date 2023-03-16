@@ -18,22 +18,19 @@ import { RetrieveIPFSHash } from './retrieveIPFSHash';
 
 export const SettingsPassword = () => {
   const [contractHash, setContractHash] = useState('');
+  const [retrieveAddress, setRetrieveAddress] = useState("");
   const [ipfsHash, setIpfsHash] = useState();
   const [hashSuccess, setHashSuccess] = useState('');
   const [storeConSuccess, setStoreConSuccess] = useState('')
 
-  const [values, setValues] = useState({
-    conHash:''
-  });
+  // const [values, setValues] = useState({
+  //   conHash:''
+  // });
 
   async function requestAccount() {
     await window.ethereum.request({method: 'eth_requestAccounts'});
 }
 
-  const CCMABI = require("../../ABI/CrossChainMessaging.json")
-  const StoringHashABI = require("../../ABI/storingHashABI.json")
-  const CCMAddress = "0x0f6Df6a4B8D4E4c48b9FCDbFFE5f4A0F395Bdf9e"
-  const destChainId = 10126
 
   // async function sendMessage(){
   //   if (typeof window.ethereum !== "undefined") {
@@ -67,12 +64,14 @@ export const SettingsPassword = () => {
   return (
     <div>
     <Formik 
-      initialValues={{conHash:" "}}
+      initialValues={{conHash:" ", retrieveAddress:""}}
       validator={() => ({})}
       onSubmit={async (values) => {
         const json = values.conHash
+        const json1 = values.retrieveAddress
         console.log(json)
         setContractHash(json)
+        setRetrieveAddress(json1)
         setStoreConSuccess("ok")
     }}
     >
@@ -81,8 +80,8 @@ export const SettingsPassword = () => {
         <Form>
         <Card>
         <CardHeader
-          subheader="Please Enter The Address of the Contract Containing the IPFS Hash"
-          title=""
+          subheader="Please enter the candidate contract address and the address of the retrieve contract which was provided to you"
+          title="Step 1: Enter Addresses"
         />
         <Divider />
         <CardContent>
@@ -92,8 +91,15 @@ export const SettingsPassword = () => {
           >
             <TextField className={styles.textfield}
               fullWidth
-              label="Contract Hash"
+              label="Candidate Contract Address"
               name="conHash"
+              required
+            />
+
+            <TextField className={styles.textfield}
+              fullWidth
+              label="Retrieve Contract Address"
+              name="retrieveAddress"
               required
               
             />
@@ -112,8 +118,10 @@ export const SettingsPassword = () => {
       
     </Formik>
 
-    <RetrieveIPFSHash conhash = {contractHash}></RetrieveIPFSHash>
-    
+    {storeConSuccess=="ok" &&
+      <RetrieveIPFSHash conhash = {contractHash} retrieveAdd={retrieveAddress}></RetrieveIPFSHash>
+      }
+
     {/* {storeConSuccess=="ok" &&
       <Card>
       <CardHeader

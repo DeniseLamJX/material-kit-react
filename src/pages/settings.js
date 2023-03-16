@@ -8,7 +8,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Retrieving Candidate Information
+        Request Candidate Information
       </title>
     </Head>
     <Box
@@ -21,7 +21,7 @@ const Page = () => (
       <Container maxWidth="lg">
         <Stack spacing={3}>
           <Typography variant="h4">
-          Retrieving Candidate Information
+          Request Candidate Information
           </Typography>
           <SettingsPassword />
         </Stack>

@@ -11,16 +11,20 @@ import {
   Divider,
   Stack,
 } from '@mui/material';
+import styles from "../../styles/textfield.module.css"
 
 
-export const RetrieveIPFSHash = ({conHash}) => {
+export const RetrieveIPFSHash = ({conHash, retrieveAdd}) => {
 
     const [ipfsHash, setIpfsHash] = useState();
     const [hashSuccess, setHashSuccess] = useState('');
+    const [sendSuccess, setSendSuccess] = useState('');
+    const [retrieveAddSuccess, setRetrieveAddSuccess] = useState('');
+    const [transactionHash, setTransactionHash] = useState('');
 
-    const CCMABI = require("../../ABI/CrossChainMessaging.json")
+    const CCMABI = require("../../ABI/CrossChainContractABI.json")
     const StoringHashABI = require("../../ABI/storingHashABI.json")
-    const CCMAddress = "0x0f6Df6a4B8D4E4c48b9FCDbFFE5f4A0F395Bdf9e"
+    const CCMFantomAddress = "0x54A7457eFcBd91d40697F71e0e8C965F236f52f5"
     const destChainId = "10126";
 
     console.log(conHash)
@@ -49,12 +53,29 @@ export const RetrieveIPFSHash = ({conHash}) => {
         const signer = provider.getSigner();
         console.log("ok")
 
-        const CCMcontract = new ethers.Contract(CCMAddress, CCMABI, signer)
+        const CCMcontract = new ethers.Contract(CCMFantomAddress, CCMABI, signer)
         console.log("ok")
 
-        const sendMessage = await CCMcontract.sendMessage("moonbeam-alpha", ipfsHash)
+        const sendMessage = await CCMcontract.send(ipfsHash, {gasPrice: ethers.utils.parseUnits('100', 'gwei'), gasLimit: 1000000})
         console.log(sendMessage)
+        console.log(sendMessage.hash)
+        setTransactionHash(sendMessage.hash)
+        setSendSuccess("ok")
 
+    }
+    }
+
+    async function setTrustedAdd(){
+        if (typeof window.ethereum !== "undefined") {
+        await requestAccount();
+        await ethereum.request({ method: 'eth_requestAccounts' })
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        console.log("ok")
+        const CCMcontract = new ethers.Contract(CCMFantomAddress, CCMABI, signer)
+        const sendMessage = await CCMcontract.trustAddress(retrieveAdd, {gasPrice: ethers.utils.parseUnits('100', 'gwei'), gasLimit: 1000000})
+        console.log(sendMessage)
+        setRetrieveAddSuccess("ok")
     }
     }
     
@@ -65,25 +86,55 @@ export const RetrieveIPFSHash = ({conHash}) => {
                     subheader="Click to retrieve the IPFS hash"
                     title="Step 2: Retrieve IPFS Hash from blockchain"
                 />
-                
+                {hashSuccess==('ok') &&
+                    <div className={styles.ipfsLink}>Success!</div>
+                }
                 <CardContent>
                     <Button variant="contained" onClick={callIPFS}>
                     Submit
                     </Button>
                 </CardContent>
             </Card>
+
+            {hashSuccess==('ok') &&
+                <Card>
+                    <CardHeader
+                        subheader="Set retrieve address for the crosschain"
+                        title="Step 3: Set Retrieve Address"
+                    />
+                    {retrieveAddSuccess==('ok') &&
+                    <div className={styles.ipfsLink}>Success!</div>
+                }
+                    <CardContent>
+                        <Button variant="contained" onClick={setTrustedAdd}>
+                        Submit
+                        </Button>
+                    </CardContent>
+                </Card>
+            }
+            {retrieveAddSuccess==('ok') &&
             <Card>
                 <CardHeader
-                    subheader="Click to crosschain the IPFS hash to the Moonbeam Network"
-                    title="Step 3: Crosschain the IPFS Hash"
+                    subheader="Click to request the desired IPFS Hash. The information will be sent 
+                    cross-chain from the Fantom Network to the Moonbeam Network."
+                    title="Step 4: Crosschain the IPFS Hash"
                 />
-                
+                {sendSuccess=='ok' &&
+                    <div className={styles.ipfsLink}>
+                        <div>Transaction Hash: {transactionHash}</div>
+                        <div>Information request successful. Please check back in about an hour. 
+                            You can enter the transaction hash given in the following link to check if the
+                            transaction is complete: https://testnet.layerzeroscan.com/
+                        </div>
+                    </div>
+                }
                 <CardContent>
                     <Button variant="contained" onClick={sendMessage}>
                     Submit
                     </Button>
                 </CardContent>
             </Card>
+}
         </div>
         
     );
