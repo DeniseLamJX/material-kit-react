@@ -25,9 +25,10 @@ export const RetrieveIPFSHash = ({conHash, retrieveAdd}) => {
     const CCMABI = require("../../ABI/CrossChainContractABI.json")
     const StoringHashABI = require("../../ABI/storingHashABI.json")
     const CCMFantomAddress = "0x54A7457eFcBd91d40697F71e0e8C965F236f52f5"
-    const destChainId = "10126";
+    
 
-    console.log(conHash)
+    // console.log("conhash ", conHash)
+    // console.log("retrieveAdd ", retrieveAdd)
     async function requestAccount() {
         await window.ethereum.request({method: 'eth_requestAccounts'});
     }
@@ -36,8 +37,8 @@ export const RetrieveIPFSHash = ({conHash, retrieveAdd}) => {
             await requestAccount();
             await ethereum.request({ method: 'eth_requestAccounts' })
             const provider = new ethers.providers.Web3Provider(window.ethereum);
-            console.log("checkpoint3")
-            const contract = new ethers.Contract("0x91ff09e62b31df5e98546c2a181d69889Bb4a2E3", StoringHashABI, provider)
+            console.log(conHash)
+            const contract = new ethers.Contract(conHash, StoringHashABI, provider)
             const IpfsHash = await contract.getHash()
             console.log(IpfsHash)
     
@@ -55,8 +56,8 @@ export const RetrieveIPFSHash = ({conHash, retrieveAdd}) => {
 
         const CCMcontract = new ethers.Contract(CCMFantomAddress, CCMABI, signer)
         console.log("ok")
-
-        const sendMessage = await CCMcontract.send(ipfsHash, {gasPrice: ethers.utils.parseUnits('100', 'gwei'), gasLimit: 1000000})
+        console.log(ipfsHash)
+        const sendMessage = await CCMcontract.send(ipfsHash.toString(), {gasPrice: ethers.utils.parseUnits('100', 'gwei'), gasLimit: 1000000})
         console.log(sendMessage)
         console.log(sendMessage.hash)
         setTransactionHash(sendMessage.hash)
@@ -121,11 +122,13 @@ export const RetrieveIPFSHash = ({conHash, retrieveAdd}) => {
                 />
                 {sendSuccess=='ok' &&
                     <div className={styles.ipfsLink}>
-                        <div>Transaction Hash: {transactionHash}</div>
-                        <div>Information request successful. Please check back in about an hour. 
+                        {/* <div>Transaction Hash: {transactionHash}</div> */}
+                        <div>Information request successful. The request will take some time to process, please note
+                            that the waiting time is between 2-3 hours. </div>
+                        {/* <div>
                             You can enter the transaction hash given in the following link to check if the
                             transaction is complete: https://testnet.layerzeroscan.com/
-                        </div>
+                        </div> */}
                     </div>
                 }
                 <CardContent>

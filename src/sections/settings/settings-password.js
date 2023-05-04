@@ -1,6 +1,4 @@
 import { useCallback, useState } from 'react';
-//import axios from "axios";
-import {ethers} from "ethers"
 import { Formik, Form } from 'formik';
 import {
   Button,
@@ -11,7 +9,6 @@ import {
   Divider,
   Stack,
 } from '@mui/material';
-
 import { TextField } from 'src/components/TextField';
 import styles from "../../styles/textfield.module.css"
 import { RetrieveIPFSHash } from './retrieveIPFSHash';
@@ -32,45 +29,17 @@ export const SettingsPassword = () => {
 }
 
 
-  // async function sendMessage(){
-  //   if (typeof window.ethereum !== "undefined") {
-  //     await requestAccount();
-  //     await ethereum.request({ method: 'eth_requestAccounts' })
-  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //     const signer = provider.getSigner();
-
-  //     const CCMcontract = new ethers.Contract(CCMAddress, CCMABI, signer)
-  //     const sendMessage = await CCMcontract.sendMessage(destChainId, ipfsHash)
-  //     console.log(sendMessage)
-
-  // }
-// }
-
-  //   async function callIPFS(){
-  //     if (typeof window.ethereum !== "undefined") {
-  //       await requestAccount();
-  //       await ethereum.request({ method: 'eth_requestAccounts' });
-  //       const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //       const signer = provider.getSigner();
-  //       const contract = new ethers.Contract(contractHash, StoringHashABI, provider)
-  //       // const allStore = await contract.allStores();
-  //       // console.log("newStore: ", allStore);
-  //       // console.log(allStore[allStore.length-1])
-  //       // setContractHash(allStore[allStore.length-1])
-  //   }
-  // }
-
-
   return (
     <div>
     <Formik 
-      initialValues={{conHash:" ", retrieveAddress:""}}
+      initialValues={{conHash:"", retrieveAddress:""}}
       validator={() => ({})}
       onSubmit={async (values) => {
         const json = values.conHash
         const json1 = values.retrieveAddress
-        console.log(json)
+       // console.log(json)
         setContractHash(json)
+        console.log(contractHash)
         setRetrieveAddress(json1)
         setStoreConSuccess("ok")
     }}
@@ -119,7 +88,7 @@ export const SettingsPassword = () => {
     </Formik>
 
     {storeConSuccess=="ok" &&
-      <RetrieveIPFSHash conhash = {contractHash} retrieveAdd={retrieveAddress}></RetrieveIPFSHash>
+      <RetrieveIPFSHash conHash = {contractHash} retrieveAdd={retrieveAddress}></RetrieveIPFSHash>
       }
 
     {/* {storeConSuccess=="ok" &&

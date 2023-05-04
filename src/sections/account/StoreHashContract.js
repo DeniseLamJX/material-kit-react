@@ -99,7 +99,9 @@ export const StoreHashContract = ({firstName, lastName, hash}) =>{
                     <Button onClick={sendHashToMongo}>
                         Save to Mongo
                     </Button>
+                    <div>
                     {contractHash && <div className={styles.ipfsLink}>{contractHash}</div> }
+                    </div>
                     </CardContent>
             </Card>
         }

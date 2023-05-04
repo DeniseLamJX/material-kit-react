@@ -10,149 +10,47 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CustomersTable } from 'src/sections/customer/customers-table';
 import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
+import IconButton from "@mui/material/IconButton";
+import MagnifyingGlassIcon from '@heroicons/react/24/solid/MagnifyingGlassIcon';
+import TextField from "@mui/material/TextField";
 
 const now = new Date();
 
 const data = [
   {
     id: '5e887ac47eed253091be10cb',
-    address: {
-      city: 'Cleveland',
-      country: 'USA',
-      state: 'Ohio',
-      street: '2849 Fulton Street'
-    },
-    avatar: '/assets/avatars/avatar-carson-darrin.png',
+    firstName: 'Denise',
+    lastName: 'Lam',
+    contractHash:'0xc405e89C344e9C68471060c6a70177F1FE002341',
     createdAt: subDays(subHours(now, 7), 1).getTime(),
-    email: 'carson.darrin@devias.io',
-    name: 'Carson Darrin',
-    phone: '304-428-3097'
+    
   },
   {
-    id: '5e887b209c28ac3dd97f6db5',
-    address: {
-      city: 'Atlanta',
-      country: 'USA',
-      state: 'Georgia',
-      street: '1865  Pleasant Hill Road'
-    },
-    avatar: '/assets/avatars/avatar-fran-perez.png',
-    createdAt: subDays(subHours(now, 1), 2).getTime(),
-    email: 'fran.perez@devias.io',
-    name: 'Fran Perez',
-    phone: '712-351-5711'
+    
+firstName: "DDenise",
+lastName: "randome",
+contractHash: "0x31766BB94F5A4e5029a04c23F2B40eF87F97aAa6",
+createdAt: subDays(subHours(now, 7), 7).getTime(),
   },
   {
-    id: '5e887b7602bdbc4dbb234b27',
-    address: {
-      city: 'North Canton',
-      country: 'USA',
-      state: 'Ohio',
-      street: '4894  Lakeland Park Drive'
-    },
-    avatar: '/assets/avatars/avatar-jie-yan-song.png',
-    createdAt: subDays(subHours(now, 4), 2).getTime(),
-    email: 'jie.yan.song@devias.io',
-    name: 'Jie Yan Song',
-    phone: '770-635-2682'
+    firstName: "Happy",
+    lastName: "No",
+    contractHash: "0xc4e775547B49c0BaAb93E2A3B84E5cd4e395c40c",
+    createdAt: subDays(subHours(now, 7), 7).getTime(),
   },
   {
-    id: '5e86809283e28b96d2d38537',
-    address: {
-      city: 'Madrid',
-      country: 'Spain',
-      name: 'Anika Visser',
-      street: '4158  Hedge Street'
-    },
-    avatar: '/assets/avatars/avatar-anika-visser.png',
-    createdAt: subDays(subHours(now, 11), 2).getTime(),
-    email: 'anika.visser@devias.io',
-    name: 'Anika Visser',
-    phone: '908-691-3242'
+    
+    firstName: "Tom",
+    lastName:  "Harry",
+    createdAt: subDays(subHours(now, 7), 7).getTime(),
+    contractHash:   "0xf2044b8036f8BBde728CD47f19fC282DFe1c37A5",
   },
   {
-    id: '5e86805e2bafd54f66cc95c3',
-    address: {
-      city: 'San Diego',
-      country: 'USA',
-      state: 'California',
-      street: '75247'
-    },
-    avatar: '/assets/avatars/avatar-miron-vitold.png',
-    createdAt: subDays(subHours(now, 7), 3).getTime(),
-    email: 'miron.vitold@devias.io',
-    name: 'Miron Vitold',
-    phone: '972-333-4106'
-  },
-  {
-    id: '5e887a1fbefd7938eea9c981',
-    address: {
-      city: 'Berkeley',
-      country: 'USA',
-      state: 'California',
-      street: '317 Angus Road'
-    },
-    avatar: '/assets/avatars/avatar-penjani-inyene.png',
-    createdAt: subDays(subHours(now, 5), 4).getTime(),
-    email: 'penjani.inyene@devias.io',
-    name: 'Penjani Inyene',
-    phone: '858-602-3409'
-  },
-  {
-    id: '5e887d0b3d090c1b8f162003',
-    address: {
-      city: 'Carson City',
-      country: 'USA',
-      state: 'Nevada',
-      street: '2188  Armbrester Drive'
-    },
-    avatar: '/assets/avatars/avatar-omar-darboe.png',
-    createdAt: subDays(subHours(now, 15), 4).getTime(),
-    email: 'omar.darobe@devias.io',
-    name: 'Omar Darobe',
-    phone: '415-907-2647'
-  },
-  {
-    id: '5e88792be2d4cfb4bf0971d9',
-    address: {
-      city: 'Los Angeles',
-      country: 'USA',
-      state: 'California',
-      street: '1798  Hickory Ridge Drive'
-    },
-    avatar: '/assets/avatars/avatar-siegbert-gottfried.png',
-    createdAt: subDays(subHours(now, 2), 5).getTime(),
-    email: 'siegbert.gottfried@devias.io',
-    name: 'Siegbert Gottfried',
-    phone: '702-661-1654'
-  },
-  {
-    id: '5e8877da9a65442b11551975',
-    address: {
-      city: 'Murray',
-      country: 'USA',
-      state: 'Utah',
-      street: '3934  Wildrose Lane'
-    },
-    avatar: '/assets/avatars/avatar-iulia-albu.png',
-    createdAt: subDays(subHours(now, 8), 6).getTime(),
-    email: 'iulia.albu@devias.io',
-    name: 'Iulia Albu',
-    phone: '313-812-8947'
-  },
-  {
-    id: '5e8680e60cba5019c5ca6fda',
-    address: {
-      city: 'Salt Lake City',
-      country: 'USA',
-      state: 'Utah',
-      street: '368 Lamberts Branch Road'
-    },
-    avatar: '/assets/avatars/avatar-nasimiyu-danai.png',
-    createdAt: subDays(subHours(now, 1), 9).getTime(),
-    email: 'nasimiyu.danai@devias.io',
-    name: 'Nasimiyu Danai',
-    phone: '801-301-7894'
+    
+    firstName: "Try",
+    lastName:  "Me",
+    createdAt: subDays(subHours(now, 7), 7).getTime(),
+    contractHash:   "0xfA1AB79Eb60459ABe6578E58CF08eA4652d83aBe",
   }
 ];
 
@@ -174,12 +72,42 @@ const useCustomerIds = (customers) => {
   );
 };
 
+// const SearchBar = ({setSearchQuery}) => (
+//   <form>
+//     <TextField
+//       id="search-bar"
+//       className="text"
+//       onInput={(e) => {
+//         setSearchQuery(e.target.value);
+//       }}
+//       label="Enter a city name"
+//       variant="outlined"
+//       placeholder="Search..."
+//       size="small"
+//     />
+//     <IconButton type="submit" aria-label="search">
+//       <MagnifyingGlassIcon style={{ fill: "blue" }} />
+//     </IconButton>
+//   </form>
+// );
+
+// const filterData = (query, data) => {
+//   if (!query) {
+//     return data;
+//   } else {
+//     return data.firstName.filter((d) => d.toLowerCase().includes(query));
+//   }
+// };
+
+
 const Page = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const customers = useCustomers(page, rowsPerPage);
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
+  // const [searchQuery, setSearchQuery] = useState("");
+  // const dataFiltered = filterData(searchQuery, data);
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -199,7 +127,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Customers | Devias Kit
+          Candidate List
         </title>
       </Head>
       <Box
@@ -218,49 +146,44 @@ const Page = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Customers
+                  Candidate List
                 </Typography>
                 <Stack
                   alignItems="center"
                   direction="row"
                   spacing={1}
                 >
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowUpOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Import
-                  </Button>
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowDownOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Export
-                  </Button>
+
                 </Stack>
               </Stack>
               <div>
-                <Button
-                  startIcon={(
-                    <SvgIcon fontSize="small">
-                      <PlusIcon />
-                    </SvgIcon>
-                  )}
-                  variant="contained"
-                >
-                  Add
-                </Button>
+                
               </div>
             </Stack>
-            <CustomersSearch />
+            {/* <CustomersSearch /> */}
+        {/* <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> */}
+      {/* <div style={{ padding: 3 }}>
+        {dataFiltered.map((d) => (
+          <div
+            className="text"
+            style={{
+              padding: 5,
+              justifyContent: "normal",
+              fontSize: 20,
+              color: "blue",
+              margin: 1,
+              width: "250px",
+              BorderColor: "green",
+              borderWidth: "10px"
+            }}
+            key={d.id}
+          >
+            {d}
+          </div>
+        ))}
+      </div> */}
+
+
             <CustomersTable
               count={data.length}
               items={customers}
